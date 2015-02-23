@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Searching now",
+  "version": "1.0",
+  "description": "Tweet your searching keywords",
+  "permissions": [
+    "tabs",
+    "https://api.twitter.com/"
+  ],
+  "browser_action": {
+    "default_popup": "popitem.html",
+    "default_icon": "tsunamayo128.jpeg"
+  },
+  "icons" : {
+    "128": "tsunamayo128.jpeg"
+  },
+  "author": "SAKATA Sinji",
+  "homepage_url": "https://github.com/NKMR6194/searching-now"
+}
