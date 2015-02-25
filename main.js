@@ -39,9 +39,8 @@ Twitter.prototype.request_token = function(){
     });
     console.log(param);
 
-    oauth_token_glb = param['oauth_token'];
-    $('#token').attr('value', param['oauth_token']);
-    $('a#link').attr('href', 'https://twitter.com/oauth/authorize?oauth_token=' + param['oauth_token']);
+    localStorage['oauth_token'] = param['oauth_token'];
+    chrome.tabs.create({url:'https://twitter.com/oauth/authorize?oauth_token=' + param['oauth_token']});
   });
 }
 
@@ -62,7 +61,7 @@ Twitter.prototype.send_pin = function(){
           oauth_verifier: $('#pin').val(),
           oauth_signature_method: "HMAC-SHA1",
           oauth_consumer_key: this.consumerKey,
-          oauth_token: oath_token_glb
+          oauth_token: localStorage['oauth_token']
       }
   };
 
@@ -79,6 +78,11 @@ Twitter.prototype.send_pin = function(){
   .done(function(data){
     console.log('OK');
     console.log(data);
+    var array = data.split('&');
+    $.each(array, function(index, item) {
+      var keyval = item.split('=');
+      localStorage[keyval[0]] = keyval[1];
+    });
   })
   .fail(function(){
     console.log('fail');
@@ -86,7 +90,6 @@ Twitter.prototype.send_pin = function(){
 }
 
 var twitter = new Twitter();
-var oauth_token_glb;
 
 function update(data){
     for( var i = 0; i < data.length; i++ ) {
@@ -96,8 +99,15 @@ function update(data){
 
 document.addEventListener('DOMContentLoaded', function() {
     var make = document.getElementById('make');
-    link.addEventListener('click', function() {
-      console.log(oauth_token_glb);
+    make.addEventListener('click', function() {
+      console.log(localStorage['oauth_token']);
       twitter.request_token();
     });
+    var link = document.getElementById('send');
+    link.addEventListener('click', function() {
+      console.log(localStorage['oauth_token']);
+      twitter.send_pin();
+    });
 });
+
+console.log(localStorage['oauth_token']);

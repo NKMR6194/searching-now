@@ -4,6 +4,8 @@
   "version": "1.0",
   "description": "Tweet your searching keywords",
   "permissions": [
+    "storage",
+    "unlimitedStorage",
     "tabs",
     "https://api.twitter.com/"
   ],
