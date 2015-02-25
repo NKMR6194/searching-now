@@ -89,6 +89,44 @@ Twitter.prototype.send_pin = function(){
   });
 }
 
+Twitter.prototype.status_update = function(tweet){
+  var accessor = {
+      consumerSecret: this.consumerSecret,
+      tokenSecret: localStorage['oauth_token_secret']
+  };
+
+  var message = {
+      method: 'POST',
+      action: 'https://api.twitter.com/1.1/statuses/update.json',
+      header: {
+        Authorization: 'OAuth'
+      },
+      parameters: {
+        oauth_version: "1.0",
+        oauth_signature_method: "HMAC-SHA1",
+        oauth_consumer_key: this.consumerKey,
+        oauth_token: localStorage['oauth_token'],
+        status: tweet
+      },
+
+  };
+
+  OAuth.setTimestampAndNonce(message);
+  OAuth.SignatureMethod.sign(message, accessor);
+
+  var target = OAuth.addToURL(message.action, {status: tweet});
+
+  $.post(message.action, message.parameters)
+  .done(function(data){
+    console.log('OK');
+    console.log(data);
+  })
+  .fail(function(){
+    console.log(message.parameters);
+  });
+}
+
+
 var twitter = new Twitter();
 
 function update(data){
@@ -107,6 +145,11 @@ document.addEventListener('DOMContentLoaded', function() {
     link.addEventListener('click', function() {
       console.log(localStorage['oauth_token']);
       twitter.send_pin();
+    });
+    var post = document.getElementById('tweet');
+    post.addEventListener('click', function() {
+      console.log('post');
+      twitter.status_update('testing');
     });
 });
 
