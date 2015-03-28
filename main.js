@@ -149,8 +149,37 @@ document.addEventListener('DOMContentLoaded', function() {
     var post = document.getElementById('tweet');
     post.addEventListener('click', function() {
       console.log('post');
-      twitter.status_update('testing');
+      twitter.status_update($('#tweet-text').val());
     });
 });
 
 console.log(localStorage['oauth_token']);
+
+$.urlParam = function(name, url){
+    var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(url);
+    return results[1] || 0;
+}
+
+function getParameterByName(name, url) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(url);
+    var regexa = new RegExp("#" + name + "=([^&#]*)"),
+        resultsa = regexa.exec(url);
+    console.log(resultsa[0]);
+    console.log(results[1]);
+    if(resultsa != null){
+      return decodeURIComponent(resultsa[1].replace(/\+/g, " "));
+    }
+    else if(results != null){
+      decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    else{
+      return "";
+    }
+}
+
+chrome.tabs.getSelected(function (tab){
+  var keyword = getParameterByName('q', tab.url);
+  $('#tweet-text').val('「 ' + keyword + ' 」と調べています #searching_now');
+});
