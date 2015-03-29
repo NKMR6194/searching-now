@@ -38,5 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 chrome.tabs.getSelected(function (tab){
   var keyword = getParameterByName('q', tab.url);
-  $('#tweet-text').val('「 ' + keyword + ' 」と調べています #searching_now');
+  if(keyword != ''){
+    $('#tweet-text').val('「 ' + keyword + ' 」と調べています #searching_now');
+  }
 });
