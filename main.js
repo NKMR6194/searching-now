@@ -22,6 +22,18 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('post');
       twitter.status_update($('#tweet-text').val());
     });
+    var start = document.getElementById('start');
+    start.addEventListener('click', function() {
+      chrome.runtime.getBackgroundPage(function (page){
+        page.addListener();
+      });
+    });
+    var end = document.getElementById('end');
+    end.addEventListener('click', function() {
+      chrome.runtime.getBackgroundPage(function (page){
+        page.removeListener();
+      });
+    });
 });
 
 chrome.tabs.getSelected(function (tab){

@@ -4,7 +4,8 @@
   "version": "1.0",
   "description": "Tweet your searching keywords",
   "background": {
-    "scripts": ["sha1.js", "oauth.js", "jquery.min.js", "twitter.js", "background.js"]
+    "scripts": ["sha1.js", "oauth.js", "jquery.min.js", "twitter.js", "background.js"],
+    "persistent": false
   },
   "permissions": [
     "storage",
