@@ -18,6 +18,10 @@ function removeListener(){
   chrome.tabs.onUpdated.removeListener(post);
 }
 
+function getStorage(key){
+  return localStorage[key];
+}
+
 if(!localStorage['auto']){
   localStorage['auto'] = 'disable';
 }

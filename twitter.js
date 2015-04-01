@@ -44,7 +44,7 @@ Twitter.prototype.request_token = function(){
   });
 }
 
-Twitter.prototype.send_pin = function(){
+Twitter.prototype.send_pin = function(pincode){
   var accessor = {
       consumerSecret: this.consumerSecret,
       tokenSecret: this.tokenSecret
@@ -58,7 +58,7 @@ Twitter.prototype.send_pin = function(){
       },
       parameters: {
           oauth_version: "1.0",
-          oauth_verifier: $('#pin').val(),
+          oauth_verifier: pincode,
           oauth_signature_method: "HMAC-SHA1",
           oauth_consumer_key: this.consumerKey,
           oauth_token: localStorage['oauth_token']

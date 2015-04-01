@@ -9,29 +9,25 @@ function update(data){
 document.addEventListener('DOMContentLoaded', function() {
     var make = document.getElementById('make');
     make.addEventListener('click', function() {
-      console.log(localStorage['oauth_token']);
-      twitter.request_token();
+      chrome.runtime.getBackgroundPage(function (page){ page.twitter.request_token(); });
     });
     var link = document.getElementById('send');
     link.addEventListener('click', function() {
-      console.log(localStorage['oauth_token']);
-      twitter.send_pin();
+      chrome.runtime.getBackgroundPage(function (page){ page.twitter.send_pin($('#pin').val()); });
     });
     var post = document.getElementById('tweet');
     post.addEventListener('click', function() {
-      console.log('post');
-      twitter.status_update($('#tweet-text').val());
+      chrome.runtime.getBackgroundPage(function (page){ page.twitter.status_update($('#tweet-text').val()); });
     });
-    var start = document.getElementById('start');
-    start.addEventListener('click', function() {
+    var auto = document.getElementById('auto');
+    auto.addEventListener('click', function() {
       chrome.runtime.getBackgroundPage(function (page){
-        page.addListener();
-      });
-    });
-    var end = document.getElementById('end');
-    end.addEventListener('click', function() {
-      chrome.runtime.getBackgroundPage(function (page){
-        page.removeListener();
+        if(auto.checked){
+          page.addListener();
+        }
+        else{
+          page.removeListener();
+        }
       });
     });
 });
@@ -40,5 +36,15 @@ chrome.tabs.getSelected(function (tab){
   var keyword = getParameterByName('q', tab.url);
   if(keyword != ''){
     $('#tweet-text').val('「 ' + keyword + ' 」と調べています #searching_now');
+  }
+});
+
+chrome.runtime.getBackgroundPage(function (page){
+  console.log(page.getStorage('auto'));
+  if(page.getStorage('auto') == 'enable'){
+    $('#auto').attr("checked", true );
+  }
+  else{
+    $('#auto').attr("checked", false );
   }
 });

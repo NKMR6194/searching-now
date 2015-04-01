@@ -2,24 +2,38 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8">
-    <title>Link Maker</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="css/popup.css" type="text/css">
   </head>
   <body>
-    <h1>#searching_now</h1>
-    <button id='make'>作成</button>
-    <p id="title"></p>
-    <button id='tweet'>つぶやく</button>
-    <button id='start'>Autoつぶやき</button>
-    <button id='end'>Auto解除</button>
-    <p id="url"></p>
-    <textarea id="tweet-text" rows="3"></textarea>
+    <div class="container">
+      <div class="clearfix">
+        <textarea class="form-control" id="tweet-text" rows="3"></textarea>
+        <button class="btn btn-primary" id='tweet'><i class="glyphicon glyphicon-send"></i> ツイート</button>
+      </div>
+      <div class="page-header">
+        <h4>設定</h4>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input id="auto" type="checkbox"> 自動でつぶやく<span id="switch"></span>
+        </label>
+      </div>
+      <button class="btn btn-default" id='make'><i class="glyphicon glyphicon-plus"></i> アカウントを登録</button>
+      <form>
+        <div class="input-group">
+          <input class="form-control" id='pin' type="number">
+          <span class="input-group-btn">
+            <button class="btn btn-default" id='send' type="button">送信</button>
+          </span>
+        </div>
+      </form>
+    </div>
     <!-- Load JavaScript-->
     <script src="jquery.min.js"></script>
     <script src="sha1.js"></script>
     <script src="oauth.js"></script>
     <script src="twitter.js"></script>
     <script src="main.js"></script>
-    <form><input id='pin' type="number"><input id='send' type="button" value='送信'></from>
   </body>
 </html>
