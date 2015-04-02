@@ -1,10 +1,11 @@
-var twitter = new Twitter();
-
 function update(data){
     for( var i = 0; i < data.length; i++ ) {
         $("#test").append("<p>"+data[i].user.name + ' : ' + data[i].text+"</p>");
     }
 }
+
+var badge_on = '<i class="glyphicon glyphicon-ok-circle"></i> ON'
+var badge_off = '<i class="glyphicon glyphicon-remove-circle"></i> OFF'
 
 document.addEventListener('DOMContentLoaded', function() {
     var make = document.getElementById('make');
@@ -26,9 +27,17 @@ document.addEventListener('DOMContentLoaded', function() {
       chrome.runtime.getBackgroundPage(function (page){
         if(auto.checked){
           page.addListener();
+          $('#status').removeClass('badge-danger');
+          $('#status').addClass('badge-success');
+          $('#status').empty();
+          $('#status').append(badge_on);
         }
         else{
           page.removeListener();
+          $('#status').removeClass('badge-success');
+          $('#status').addClass('badge-danger');
+          $('#status').empty();
+          $('#status').append(badge_off);
         }
       });
     });
@@ -42,12 +51,15 @@ chrome.tabs.getSelected(function (tab){
 });
 
 chrome.runtime.getBackgroundPage(function (page){
-  console.log(page.getStorage('auto'));
   if(page.getStorage('auto') == 'enable'){
     $('#auto').attr("checked", true );
+    $('#status').addClass('badge-success');
+    $('#status').append(badge_on);
   }
   else{
     $('#auto').attr("checked", false );
+    $('#status').addClass('badge-danger');
+    $('#status').append(badge_off);
   }
 
   var account = page.getStorage('screen_name')
