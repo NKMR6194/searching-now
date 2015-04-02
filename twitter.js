@@ -44,7 +44,7 @@ Twitter.prototype.request_token = function(){
   });
 }
 
-Twitter.prototype.send_pin = function(pincode){
+Twitter.prototype.send_pin = function(pincode, elem){
   var accessor = {
       consumerSecret: this.consumerSecret,
       tokenSecret: this.tokenSecret
@@ -83,6 +83,8 @@ Twitter.prototype.send_pin = function(pincode){
       var keyval = item.split('=');
       localStorage[keyval[0]] = keyval[1];
     });
+    elem.empty();
+    elem.append('@' + localStorage['screen_name']);
   })
   .fail(function(){
     console.log('fail');

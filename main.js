@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     var link = document.getElementById('send');
     link.addEventListener('click', function() {
-      chrome.runtime.getBackgroundPage(function (page){ page.twitter.send_pin($('#pin').val()); });
+      chrome.runtime.getBackgroundPage(function (page){
+        page.twitter.send_pin($('#pin').val(), $('#screen-name'));
+      });
     });
     var post = document.getElementById('tweet');
     post.addEventListener('click', function() {
@@ -47,4 +49,7 @@ chrome.runtime.getBackgroundPage(function (page){
   else{
     $('#auto').attr("checked", false );
   }
+
+  var account = page.getStorage('screen_name')
+  $("#screen-name").append(account ? '@' + account : 'アカウントが未認証です');
 });
